@@ -7,71 +7,28 @@
  */
 
 import React from 'react';
-import {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
+import SignIn from './Screens/SignIn';
+
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
+import Home from './Screens/Home';
+import SignUp from './Screens/SignUp';
+
 const Stack = createNativeStackNavigator();
 
-const HomeScreen = () => {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-    </View>
-  );
-};
 const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          options={{
-            title: 'Aye Mar',
-          }}
-          component={HomeScreen}
-        />
-        {/* <Stack.Screen name="Details" component={DetailsScreen} /> */}
+      <Stack.Navigator
+        initialRouteName="Login"
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Login" component={SignIn} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
