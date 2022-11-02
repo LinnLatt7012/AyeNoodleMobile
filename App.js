@@ -13,21 +13,26 @@ import SignIn from './Screens/SignIn';
 
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from './Screens/Home';
-import SignUp from './Screens/SignUp';
+import {PersistGate} from 'redux-persist/integration/react';
+import {persistor, store} from './Redux/store';
+import {Provider} from 'react-redux';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Login"
-        screenOptions={{headerShown: false}}>
-        <Stack.Screen name="Login" component={SignIn} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-        <Stack.Screen name="Home" component={Home} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Login"
+            screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Login" component={SignIn} />
+            <Stack.Screen name="Home" component={Home} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 };
 
