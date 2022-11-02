@@ -6,26 +6,41 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import SignIn from './Screens/SignIn';
+import React, {useState} from 'react';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+} from '@react-navigation/native';
 
+import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Home from './Screens/Home';
 import {PersistGate} from 'redux-persist/integration/react';
 import {persistor, store} from './Redux/store';
 import {Provider} from 'react-redux';
+import SignIn from './Screens/SignIn';
+import Home from './Screens/Home';
+import {useColorScheme} from 'react-native';
+
+SystemNavigationBar.navigationHide();
 
 const Stack = createNativeStackNavigator();
-
+const myTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#a8c5f0',
+  },
+};
 const App = () => {
+  const scheme = useColorScheme();
+  const [login, setLogin] = useState(true);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
+        <NavigationContainer theme={scheme !== 'dark' ? DarkTheme : myTheme}>
           <Stack.Navigator
-            initialRouteName="Login"
+            initialRouteName={login ? 'Home' : 'Login'}
             screenOptions={{headerShown: false}}>
             <Stack.Screen name="Login" component={SignIn} />
             <Stack.Screen name="Home" component={Home} />
