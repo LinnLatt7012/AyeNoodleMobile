@@ -36,10 +36,12 @@ const products = [
     versions: [
       {
         id: 4,
+        date: '9-11-10',
         unitPrice: 1500,
       },
       {
         id: 5,
+        date: '9-11-10',
         unitPrice: 5500,
       },
     ],
@@ -53,14 +55,17 @@ const products = [
     versions: [
       {
         id: 6,
+        date: '9-11-10',
         unitPrice: 4000,
       },
       {
         id: 7,
+        date: '9-11-10',
         unitPrice: 1500,
       },
       {
         id: 8,
+        date: '9-11-10',
         unitPrice: 5500,
       },
     ],
