@@ -1,79 +1,14 @@
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import Product from '../components/Product';
 import {useTheme} from '@react-navigation/native';
-const products = [
-  {
-    productID: 1,
-    productName: ['Bean Sauces', 'ပဲငံပြာရည်'],
-    activeVersion: 2,
-    totalQuantity: 100,
-    minStock: 10,
-    versions: [
-      {
-        id: 1,
-        date: '9-11-10',
-        unitPrice: 2000,
-      },
-      {
-        id: 2,
-        date: '9-11-10',
-        unitPrice: 3500,
-      },
-      {
-        id: 3,
-        date: '9-11-10',
-        unitPrice: 3500,
-      },
-    ],
-  },
-  {
-    productID: 2,
-    productName: ['Red Sauces', ' ငရုတ်ကောင်း'],
-    activeVersion: 4,
-    totalQuantity: 20,
-    minStock: 20,
-    versions: [
-      {
-        id: 4,
-        date: '9-11-10',
-        unitPrice: 1500,
-      },
-      {
-        id: 5,
-        date: '9-11-10',
-        unitPrice: 5500,
-      },
-    ],
-  },
-  {
-    productID: 3,
-    productName: ['Soy Sauces', 'ပဲငံပြာရည်အကြည်'],
-    activeVersion: 7,
-    totalQuantity: 90,
-    minStock: 10,
-    versions: [
-      {
-        id: 6,
-        date: '9-11-10',
-        unitPrice: 4000,
-      },
-      {
-        id: 7,
-        date: '9-11-10',
-        unitPrice: 1500,
-      },
-      {
-        id: 8,
-        date: '9-11-10',
-        unitPrice: 5500,
-      },
-    ],
-  },
-];
+import {useSelector, useDispatch} from 'react-redux';
+import NetInfo from '@react-native-community/netinfo';
+import {getProducts} from '../Redux/actions';
 
 const ProductLists = ({}) => {
-  const renderItem = ({item}) => <Product item={item} />;
+  const {products} = useSelector(state => state.produtsReducer);
+  const dispatch = useDispatch();
   const {colors} = useTheme();
   const styles = StyleSheet.create({
     item: {
@@ -93,8 +28,26 @@ const ProductLists = ({}) => {
       textAlign: 'center',
     },
   });
+
+  useEffect(() => {
+    fetchProducts();
+    return () => {};
+  }, [products]);
+
+  const fetchProducts = () => {
+    NetInfo.fetch().then(networkState => {
+      if (networkState.isConnected && networkState.isInternetReachable) {
+        dispatch(getProducts());
+      } else {
+        console.log('no Connection');
+      }
+    });
+  };
+
+  const renderItem = ({item}) => <Product item={item} />;
   return (
     <>
+      <View style={{height: '40%'}}></View>
       <View style={styles.item}>
         <Text style={{...styles.title, flex: 3}}>Product Name</Text>
         <Text
@@ -112,7 +65,10 @@ const ProductLists = ({}) => {
         style={{
           flex: 1,
           marginTop: 10,
+          height: '0%',
         }}
+        onEndReached={fetchProducts}
+        onEndReachedThreshold={0.5}
         data={products}
         renderItem={renderItem}
         keyExtractor={item => item.productID}

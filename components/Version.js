@@ -1,13 +1,15 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import React, {useEffect, version} from 'react';
-import {useTheme} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import axios from 'axios';
+import {BASE_URL} from '../config';
 
 const Version = ({version, productID, isActive}) => {
+  const {navigate} = useNavigation();
   const {colors} = useTheme();
   const styles = StyleSheet.create({
     item: {
       padding: 20,
-      // marginVertical: 8,
       marginHorizontal: 16,
       display: 'flex',
       flexDirection: 'row',
@@ -21,10 +23,51 @@ const Version = ({version, productID, isActive}) => {
       textAlign: 'center',
     },
   });
+
   useEffect(() => {
     // console.log(isActive);
   });
-  const onPressHandler = () => {};
+  const onPressHandler = async () => {
+    try {
+      // Alert.alert(
+      //   'Alert Title',
+      //   'My Alert Msg',
+      //   [
+      //     {
+      //       text: 'Ok',
+      //       onPress: async () => {
+      //         await axios
+      //           .put(`${BASE_URL}/api/${productID}/versions/${version.id}`)
+      //           .then(() => Alert.alert('Change Version successed'));
+      //         navigate('Products');
+      //       },
+      //     },
+      //     {
+      //       text: 'Cancel',
+      //       onPress: () => Alert.alert('Cancel Pressed'),
+      //       style: 'cancel',
+      //     },
+      //   ],
+      //   {
+      //     cancelable: true,
+      //     onDismiss: () =>
+      //       Alert.alert(
+      //         'This alert was dismissed by tapping outside of the alert dialog.',
+      //       ),
+      //   },
+      // );
+      // axios.post(`${BASE_URL}/api/${productID}/versions/${version.id}`);
+      console.log('id', productID, 'vid', version.id);
+      await axios
+        .put(`${BASE_URL}/api/products/${productID}/versions/${version.id}`)
+        .then(res => {
+          console.log(res.data);
+        });
+      navigate('productList');
+    } catch (error) {
+      console.log('Post error', error);
+    }
+  };
   return (
     <TouchableOpacity
       activeOpacity={0.4}
@@ -38,7 +81,6 @@ const Version = ({version, productID, isActive}) => {
           borderBottomColor: '#606060',
           borderBottomWidth: 1,
         }}>
-        <Text style={{...styles.title, flex: 1}}>{version.id}</Text>
         <Text
           style={{
             ...styles.title,

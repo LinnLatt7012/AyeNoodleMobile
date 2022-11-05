@@ -35,12 +35,13 @@ const Product = ({
     const version = versions.find(version => version.id == activeVersion);
     return version.unitPrice;
   };
-  useEffect(() => {
-    // const json = JSON.stringify(productName);
-    // console.log(`json`, json, 'array', JSON.parse(json)[0]);
-  }, []);
   const onPressHandler = () => {
-    navigate('allVersion', {productID, productName, versions, activeVersion});
+    navigate('allVersion', {
+      productID,
+      productName: JSON.parse(productName),
+      versions,
+      activeVersion,
+    });
   };
   return (
     <TouchableOpacity
@@ -53,7 +54,9 @@ const Product = ({
           borderBottomColor: '#606060',
           borderBottomWidth: 1,
         }}>
-        <Text style={{...styles.title, flex: 3}}>{productName[1]}</Text>
+        <Text style={{...styles.title, flex: 3}}>
+          {JSON.parse(productName)[1]}
+        </Text>
         <Text
           style={{
             ...styles.title,
