@@ -32,27 +32,27 @@ const myTheme = {
 };
 const App = () => {
   const scheme = useColorScheme();
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(true);
   useEffect(() => {
     SystemNavigationBar.navigationHide();
   });
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <StatusBar
+        {/* <StatusBar
           backgroundColor={scheme !== 'dark' ? 'black' : 'white'}
           barStyle={scheme !== 'dark' ? 'white-content' : 'dark-content'}
-        />
-        <SafeAreaView style={{flex: 1}}>
-          <NavigationContainer theme={scheme !== 'dark' ? DarkTheme : myTheme}>
-            <Stack.Navigator
-              initialRouteName={login ? 'Home' : 'Login'}
-              screenOptions={{headerShown: false}}>
-              <Stack.Screen name="Login" component={SignIn} />
-              <Stack.Screen name="Home" component={Home} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </SafeAreaView>
+        /> */}
+        {/* <SafeAreaView style={{flex: 1}}> */}
+        <NavigationContainer theme={scheme !== 'dark' ? DarkTheme : myTheme}>
+          <Stack.Navigator
+            initialRouteName={login ? 'Home' : 'Login'}
+            screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Login" component={SignIn} />
+            <Stack.Screen name="Home" component={Home} />
+          </Stack.Navigator>
+        </NavigationContainer>
+        {/* </SafeAreaView> */}
       </PersistGate>
     </Provider>
   );

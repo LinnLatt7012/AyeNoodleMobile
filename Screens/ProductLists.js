@@ -23,11 +23,11 @@ const ProductLists = ({}) => {
   const {products} = useSelector(state => state.produtsReducer);
   const [forceRender] = useForceRender();
 
-  useFocusEffect(
-    useCallback(() => {
-      forceRender();
-    }, []),
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     forceRender();
+  //   }, []),
+  // );
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const styles = StyleSheet.create({

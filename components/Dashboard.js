@@ -50,7 +50,6 @@ const Dashboard = ({products}) => {
             borderBottomWidth: 4,
             marginLeft: 15,
             marginBottom: 3,
-            // borderBottomColor: '#D6DBE7',
             paddingHorizontal: 4,
           }}>
           Dashboard
