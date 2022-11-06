@@ -4,8 +4,8 @@ import {useTheme} from '@react-navigation/native';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome5';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Products from './Products';
-import InputForm from './InputForm';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
+import Stocks from './Stocks';
 const Tab = createBottomTabNavigator();
 const screenOptions = (route, color) => {
   let iconName;
@@ -55,7 +55,7 @@ const Home = ({navigation}) => {
             headerShown: false,
           }}
         />
-        <Tab.Screen name="Stock" component={InputForm} />
+        <Tab.Screen name="Stock" component={Stocks} />
       </Tab.Navigator>
     </>
   );

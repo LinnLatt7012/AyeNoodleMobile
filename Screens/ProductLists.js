@@ -1,13 +1,33 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {useEffect} from 'react';
+import {
+  FlatList,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import React, {useEffect, useState, useCallback} from 'react';
 import Product from '../components/Product';
-import {useTheme} from '@react-navigation/native';
+import {useFocusEffect, useTheme} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import NetInfo from '@react-native-community/netinfo';
 import {getProducts} from '../Redux/actions';
+import Dashboard from '../components/Dashboard';
+
+const useForceRender = () => {
+  const [value, setValue] = useState(0);
+  return [() => setValue(value + 1)];
+};
 
 const ProductLists = ({}) => {
   const {products} = useSelector(state => state.produtsReducer);
+  const [forceRender] = useForceRender();
+
+  useFocusEffect(
+    useCallback(() => {
+      forceRender();
+    }, []),
+  );
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const styles = StyleSheet.create({
@@ -18,7 +38,7 @@ const ProductLists = ({}) => {
       marginHorizontal: 16,
       display: 'flex',
       flexDirection: 'row',
-      justifyContent: 'space-evenly',
+      justifyContent: 'space-around',
     },
     title: {
       color: colors.text,
@@ -47,32 +67,53 @@ const ProductLists = ({}) => {
   const renderItem = ({item}) => <Product item={item} />;
   return (
     <>
-      <View style={{height: '40%'}}></View>
-      <View style={styles.item}>
-        <Text style={{...styles.title, flex: 3}}>Product Name</Text>
-        <Text
-          style={{
-            ...styles.title,
-            flex: 1,
-            marginHorizontal: 10,
-            fontWeight: 'bold',
-          }}>
-          Quantity
-        </Text>
-        <Text style={styles.title}>Unit Price</Text>
+      <View style={{height: '42%', marginTop: StatusBar.currentHeight}}>
+        <Dashboard products={products} />
       </View>
-      <FlatList
+      <View
         style={{
-          flex: 1,
-          marginTop: 10,
-          height: '0%',
-        }}
-        onEndReached={fetchProducts}
-        onEndReachedThreshold={0.5}
-        data={products}
-        renderItem={renderItem}
-        keyExtractor={item => item.productID}
-      />
+          height: '55%',
+          backgroundColor: colors.card,
+          // bordeeRadius: 30,
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
+          elevation: 10,
+        }}>
+        <View
+          style={{
+            ...styles.item,
+            backgroundColor: colors.text,
+            color: colors.card,
+            borderTopLeftRadius: 10,
+            borderTopRightRadius: 10,
+          }}>
+          <Text style={{...styles.title, flex: 3, color: colors.card}}>
+            Product Name
+          </Text>
+          <Text
+            style={{
+              ...styles.title,
+              flex: 1,
+              marginHorizontal: 10,
+              fontWeight: 'bold',
+              color: colors.card,
+            }}>
+            Quantity
+          </Text>
+          <Text style={{...styles.title, color: colors.card}}>Unit Price</Text>
+        </View>
+        <FlatList
+          style={{
+            flex: 1,
+            marginTop: 5,
+          }}
+          onEndReached={fetchProducts}
+          onEndReachedThreshold={0.5}
+          data={products}
+          renderItem={renderItem}
+          keyExtractor={item => item.productID}
+        />
+      </View>
     </>
   );
 };

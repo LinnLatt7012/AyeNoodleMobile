@@ -10,6 +10,7 @@ const Versions = ({navigation, route}) => {
     <Version
       version={item}
       productID={productID}
+      productName={productName[1]}
       isActive={activeVersion == item.id}
     />
   );

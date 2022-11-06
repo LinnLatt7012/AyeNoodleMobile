@@ -1,7 +1,7 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 
-const InputForm = () => {
+const Stocks = () => {
   return (
     <View>
       <Text>InputForm</Text>
@@ -9,4 +9,4 @@ const InputForm = () => {
   );
 };
 
-export default InputForm;
+export default Stocks;

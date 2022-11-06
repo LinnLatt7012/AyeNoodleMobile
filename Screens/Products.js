@@ -14,7 +14,13 @@ const Products = () => {
           // headerShown: false,
         }
       }>
-      <Stack.Screen name="productList" component={ProductLists} />
+      <Stack.Screen
+        name="productList"
+        component={ProductLists}
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen name="allVersion" component={Versions} />
     </Stack.Navigator>
   );

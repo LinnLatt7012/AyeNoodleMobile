@@ -1,11 +1,12 @@
 import {View, Text, StyleSheet, TouchableOpacity, Alert} from 'react-native';
-import React, {useEffect, version} from 'react';
+import React, {useEffect} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import axios from 'axios';
 import {BASE_URL} from '../config';
 
-const Version = ({version, productID, isActive}) => {
+const Version = ({version, productID, productName, isActive}) => {
   const {navigate} = useNavigation();
+  // const {visible, setVisible} = useState(false);
   const {colors} = useTheme();
   const styles = StyleSheet.create({
     item: {
@@ -29,41 +30,26 @@ const Version = ({version, productID, isActive}) => {
   });
   const onPressHandler = async () => {
     try {
-      // Alert.alert(
-      //   'Alert Title',
-      //   'My Alert Msg',
-      //   [
-      //     {
-      //       text: 'Ok',
-      //       onPress: async () => {
-      //         await axios
-      //           .put(`${BASE_URL}/api/${productID}/versions/${version.id}`)
-      //           .then(() => Alert.alert('Change Version successed'));
-      //         navigate('Products');
-      //       },
-      //     },
-      //     {
-      //       text: 'Cancel',
-      //       onPress: () => Alert.alert('Cancel Pressed'),
-      //       style: 'cancel',
-      //     },
-      //   ],
-      //   {
-      //     cancelable: true,
-      //     onDismiss: () =>
-      //       Alert.alert(
-      //         'This alert was dismissed by tapping outside of the alert dialog.',
-      //       ),
-      //   },
-      // );
-      // axios.post(`${BASE_URL}/api/${productID}/versions/${version.id}`);
-      console.log('id', productID, 'vid', version.id);
-      await axios
-        .put(`${BASE_URL}/api/products/${productID}/versions/${version.id}`)
-        .then(res => {
-          console.log(res.data);
-        });
-      navigate('productList');
+      Alert.alert(
+        `${productName}`,
+        `${version.unitPrice} will be set as activeVersion`,
+        [
+          {
+            text: 'Ok',
+            onPress: async () => {
+              await axios
+                .put(
+                  `${BASE_URL}/api/products/${productID}/versions/${version.id}`,
+                )
+                .then(() => navigate('productList'));
+            },
+          },
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+        ],
+      );
     } catch (error) {
       console.log('Post error', error);
     }
