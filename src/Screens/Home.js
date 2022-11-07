@@ -35,7 +35,7 @@ const Home = ({navigation}) => {
         barStyle={scheme !== 'dark' ? 'white-content' : 'dark-content'}
       />
       <Tab.Navigator
-        initialRouteName="Stock"
+        initialRouteName="Products"
         screenOptions={({route}) => ({
           tabBarActiveTintColor: '#e91e63',
           tabBarInactiveTintColor: colors.primary,

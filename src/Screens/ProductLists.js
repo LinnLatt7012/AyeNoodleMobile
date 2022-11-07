@@ -7,12 +7,13 @@ import {
   View,
 } from 'react-native';
 import React, {useEffect, useState, useCallback} from 'react';
-import Product from '../components/Product';
 import {useFocusEffect, useTheme} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import NetInfo from '@react-native-community/netinfo';
 import {getProducts} from '../Redux/actions';
+import Product from '../components/Product';
 import Dashboard from '../components/Dashboard';
+import Noti from '../components/Noti';
 
 const useForceRender = () => {
   const [value, setValue] = useState(0);
@@ -20,14 +21,14 @@ const useForceRender = () => {
 };
 
 const ProductLists = ({}) => {
-  const {products} = useSelector(state => state.produtsReducer);
+  const {products, user} = useSelector(state => state.produtsReducer);
   const [forceRender] = useForceRender();
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     forceRender();
-  //   }, []),
-  // );
+  useFocusEffect(
+    useCallback(() => {
+      forceRender();
+    }, []),
+  );
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const styles = StyleSheet.create({
@@ -50,16 +51,20 @@ const ProductLists = ({}) => {
   });
 
   useEffect(() => {
+    console.log('here');
     fetchProducts();
-    return () => {};
-  }, [products]);
+  }, []);
 
   const fetchProducts = () => {
     NetInfo.fetch().then(networkState => {
       if (networkState.isConnected && networkState.isInternetReachable) {
-        dispatch(getProducts());
+        dispatch(getProducts(user.jwt));
       } else {
-        console.log('no Connection');
+        Noti('Network Error', 'There is no internet connection', [
+          {
+            text: 'Ok',
+          },
+        ]);
       }
     });
   };
@@ -68,7 +73,7 @@ const ProductLists = ({}) => {
   return (
     <>
       <View style={{height: '42%', marginTop: StatusBar.currentHeight}}>
-        <Dashboard products={products} />
+        <Dashboard products={products} fetchProducts={fetchProducts} />
       </View>
       <View
         style={{

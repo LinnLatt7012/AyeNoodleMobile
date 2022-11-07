@@ -16,11 +16,11 @@ import {
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PersistGate} from 'redux-persist/integration/react';
-import {persistor, store} from './Redux/store';
 import {Provider} from 'react-redux';
+import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
 import SignIn from './Screens/SignIn';
 import Home from './Screens/Home';
-import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+import {persistor, store} from './Redux/store';
 
 const Stack = createNativeStackNavigator();
 const myTheme = {
@@ -32,7 +32,7 @@ const myTheme = {
 };
 const App = () => {
   const scheme = useColorScheme();
-  const [login, setLogin] = useState(true);
+  const [login, setLogin] = useState(false);
   useEffect(() => {
     SystemNavigationBar.navigationHide();
   });

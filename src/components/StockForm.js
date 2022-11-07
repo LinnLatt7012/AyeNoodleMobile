@@ -3,90 +3,18 @@ import React, {useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {Button, TextInput} from 'react-native-paper';
 import {useSelector} from 'react-redux';
-import Picker from '../components/Picker';
 import axios from 'axios';
+import Picker from './Picker';
 import {BASE_URL} from '../config';
-const products = [
-  {
-    productID: 1,
-    enName: 'Bean Sauces',
-    mmName: 'ပဲငံပြာရည်',
-    activeVersion: 2,
-    totalQuantity: 100,
-    minStock: 10,
-    versions: [
-      {
-        id: 1,
-        date: '9-11-10',
-        unitPrice: 2000,
-      },
-      {
-        id: 2,
-        date: '9-11-10',
-        unitPrice: 3500,
-      },
-      {
-        id: 3,
-        date: '9-11-10',
-        unitPrice: 3500,
-      },
-    ],
-  },
-  {
-    productID: 2,
-    enName: 'Red Sauces',
-    mmName: 'ငရုတ်ကောင်း',
-    activeVersion: 4,
-    totalQuantity: 20,
-    minStock: 20,
-    versions: [
-      {
-        id: 4,
-        date: '9-11-10',
-        unitPrice: 1500,
-      },
-      {
-        id: 5,
-        date: '9-11-10',
-        unitPrice: 5500,
-      },
-    ],
-  },
-  {
-    productID: 3,
-    enName: 'Soy Sauces',
-    mmName: 'ပဲငံပြာရည်အကြည်',
-    activeVersion: 7,
-    totalQuantity: 90,
-    minStock: 10,
-    versions: [
-      {
-        id: 6,
-        date: '9-11-10',
-        unitPrice: 4000,
-      },
-      {
-        id: 7,
-        date: '9-11-10',
-        unitPrice: 1500,
-      },
-      {
-        id: 8,
-        date: '9-11-10',
-        unitPrice: 5500,
-      },
-    ],
-  },
-];
 const options = [
   {enName: 'In', mmName: 'In', value: 1},
   {enName: 'Out', mmName: 'Out', value: 2},
   {enName: 'Ready-made', mmName: 'Ready-made', value: 3},
 ];
-const Stocks = () => {
+const StockForm = () => {
   const {colors} = useTheme();
   const [quantity, setQuantity] = useState(0);
-  // const {products} = useSelector(state => state.produtsReducer);
+  const {products, user} = useSelector(state => state.produtsReducer);
   const [option, setOption] = useState(1);
   const [productID, setProductID] = useState(1);
   const styles = StyleSheet.create({
@@ -94,8 +22,7 @@ const Stocks = () => {
       display: 'flex',
       color: 'black',
       flexDirection: 'row',
-      width: '100%',
-      height: '100%',
+      backgroundColor: colors.card,
       justifyContent: 'space-between',
       flexWrap: 'wrap',
       padding: 20,
@@ -108,8 +35,7 @@ const Stocks = () => {
       backgroundColor: colors.card,
       borderColor: '',
       borderRadius: 5,
-      marginTop: 10,
-      // borderWidth: 1,
+      marginTop: 20,
     },
     Submit: {
       backgroundColor: colors.primary,
@@ -129,12 +55,21 @@ const Stocks = () => {
             text: 'Ok',
             onPress: async () => {
               await axios
-                .post(`${BASE_URL}/api/stocks/`, {
-                  productID,
-                  status: parseInt(option),
-                  quantity: parseInt(quantity),
-                })
-                .then(res => console.log(res.data));
+                .post(
+                  `${BASE_URL}/api/stocks/`,
+                  {
+                    productID,
+                    status: parseInt(option),
+                    quantity: parseInt(quantity),
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${user.jwt}`,
+                    },
+                  },
+                )
+                .then(res => console.log(res.data))
+                .catch(err => console.log('err at stock'));
             },
           },
           {
@@ -153,7 +88,6 @@ const Stocks = () => {
     <View
       style={{
         ...styles.mainComponent,
-        backgroundColor: colors.card,
       }}>
       <Text
         style={{
@@ -210,4 +144,4 @@ const Stocks = () => {
   );
 };
 
-export default Stocks;
+export default StockForm;

@@ -4,7 +4,8 @@ import {useNavigation, useTheme} from '@react-navigation/native';
 
 const Product = ({
   item: {
-    productName,
+    mmName,
+    enName,
     minStock,
     productID,
     totalQuantity,
@@ -38,7 +39,7 @@ const Product = ({
   const onPressHandler = () => {
     navigate('allVersion', {
       productID,
-      productName: JSON.parse(productName),
+      productName: [enName, mmName],
       versions,
       activeVersion,
     });
@@ -54,9 +55,7 @@ const Product = ({
           borderBottomColor: '#606060',
           borderBottomWidth: 1,
         }}>
-        <Text style={{...styles.title, flex: 3}}>
-          {JSON.parse(productName)[1]}
-        </Text>
+        <Text style={{...styles.title, flex: 3}}>{mmName}</Text>
         <Text
           style={{
             ...styles.title,

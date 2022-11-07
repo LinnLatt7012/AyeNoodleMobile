@@ -1,10 +1,42 @@
-import {View, Text, StyleSheet, ImageBackground} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  Animated,
+} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
-import {Paper} from 'react-native-paper';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome5';
+import {useState} from 'react';
 
-const Dashboard = ({products}) => {
+const Dashboard = ({products, fetchProducts}) => {
+  const [rotateAnimation, setRotateAnimation] = useState(new Animated.Value(0));
+
+  const handleAnimation = () => {
+    fetchProducts();
+    Animated.timing(rotateAnimation, {
+      toValue: 1,
+      duration: 800,
+      useNativeDriver: true,
+    }).start(() => {
+      rotateAnimation.setValue(0);
+    });
+  };
+
+  const interpolateRotating = rotateAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '720deg'],
+  });
+
+  const animatedStyle = {
+    transform: [
+      {
+        rotate: interpolateRotating,
+      },
+    ],
+  };
   const {colors} = useTheme();
   const styles = StyleSheet.create({
     title: {
@@ -54,6 +86,26 @@ const Dashboard = ({products}) => {
           }}>
           Dashboard
         </Text>
+        <TouchableWithoutFeedback onPress={async () => handleAnimation()}>
+          <Animated.View
+            style={{
+              ...animatedStyle,
+              marginRight: 20,
+              marginTop: 25,
+              height: 28,
+            }}>
+            <FontAwesomeIcons
+              name="redo-alt"
+              color={colors.text}
+              style={{
+                fontSize: 26,
+                fontWeight: '600',
+                color: colors.text,
+                // marginRight: 15,
+              }}
+            />
+          </Animated.View>
+        </TouchableWithoutFeedback>
       </View>
       <View>
         <View
