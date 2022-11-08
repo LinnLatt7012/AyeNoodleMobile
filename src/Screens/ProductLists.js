@@ -18,16 +18,23 @@ import {useState} from 'react';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome5';
 import CustomSafeArea from '../components/CustomSafeArea';
 import Header from '../components/Header';
+import axios from 'axios';
+import {BASE_URL} from '../config';
 
 const ProductLists = ({}) => {
   const {products} = useSelector(state => state.products);
   const {user} = useSelector(state => state.auth);
-
+  const [stockIn, setStockIn] = useState(0);
+  const [stockOut, setStockOut] = useState(0);
+  const [readyMade, setReadyMade] = useState(0);
   const dispatch = useDispatch();
   const {colors} = useTheme();
   const [rotateAnimation, setRotateAnimation] = useState(new Animated.Value(0));
 
   const handleAnimation = () => {
+    setStockIn(fetchDashboard());
+    setStockOut(fetchDashboard(7, true));
+    setReadyMade(fetchDashboard(7, true, true));
     fetchProducts();
     Animated.timing(rotateAnimation, {
       toValue: 1,
@@ -71,10 +78,13 @@ const ProductLists = ({}) => {
 
   useEffect(() => {
     fetchProducts();
+    setStockIn(fetchDashboard());
+    setStockOut(fetchDashboard(7, true));
+    setReadyMade(fetchDashboard(7, true, true));
+    // console.log(stockIn, stockOut, readyMade);
   }, []);
 
   const fetchProducts = () => {
-    console.log('hi');
     NetInfo.fetch().then(networkState => {
       if (networkState.isConnected && networkState.isInternetReachable) {
         dispatch(getProducts(user.jwt));
@@ -109,16 +119,37 @@ const ProductLists = ({}) => {
       </Animated.View>
     </TouchableWithoutFeedback>
   );
+  const fetchDashboard = async (
+    nofDays = 7,
+    stockOut = false,
+    readyMade = false,
+  ) => {
+    const res = await axios.get(
+      `${BASE_URL}/api/stocks/dashboard?nofDays=${nofDays}&stockOut=${stockOut}&readyMade=${readyMade}`,
+      {
+        headers: {
+          Authorization: `Bearer ${user.jwt}`,
+        },
+      },
+    );
+    const json = JSON.parse(res.data.value['0'].TotalStockValue);
+    return json;
+  };
   const renderItem = ({item}) => <Product item={item} />;
   return (
     <>
       <Header headerText={'Dashboard'} rightEle={refreshButton} />
-      <View style={{height: '35%'}}>
-        <Dashboard products={products} />
+      <View style={{height: '38%'}}>
+        <Dashboard
+          products={products}
+          totalStockIN={stockIn}
+          totalStockOUT={stockOut}
+          totalReadyMade={readyMade}
+        />
       </View>
       <View
         style={{
-          height: '60%',
+          height: '58%',
           backgroundColor: colors.card,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,

@@ -6,14 +6,15 @@ import {
   TouchableWithoutFeedback,
   Animated,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome5';
 import {useState} from 'react';
 import axios from 'axios';
 import {BASE_URL} from '../config';
+import Card from './Card';
 
-const Dashboard = ({products, fetchProducts}) => {
+const Dashboard = ({products, totalStockIN, totalStockOUT, totalReadyMade}) => {
   const {colors} = useTheme();
   const styles = StyleSheet.create({
     title: {
@@ -47,6 +48,9 @@ const Dashboard = ({products, fetchProducts}) => {
     });
     return total;
   };
+  useEffect(() => {
+    console.log(totalStockIN);
+  }, []);
 
   return (
     <View>
@@ -60,90 +64,10 @@ const Dashboard = ({products, fetchProducts}) => {
             justifyContent: 'space-around',
             flexWrap: 'wrap',
           }}>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              backgroundColor: colors.card,
-              width: '95%',
-              elevation: 4,
-              borderRadius: 10,
-              padding: 15,
-            }}>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-              }}>
-              <FontAwesomeIcons name="cubes" color={colors.text} size={24} />
-              <Text
-                style={{
-                  color: colors.text,
-                  paddingLeft: 4,
-                }}>
-                total stcok value
-              </Text>
-            </View>
-            <Text style={{color: colors.text, fontSize: 28}}>
-              {totalStockValue()}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              backgroundColor: colors.card,
-              elevation: 4,
-              marginTop: 15,
-              borderRadius: 10,
-              padding: 15,
-            }}>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-              }}>
-              <FontAwesomeIcons name="cubes" color={colors.text} size={24} />
-              <Text
-                style={{
-                  color: colors.text,
-                  paddingLeft: 4,
-                }}>
-                total stcok value
-              </Text>
-            </View>
-            <Text style={{color: colors.text, fontSize: 28}}>
-              {totalStockValue()}
-            </Text>
-          </View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              backgroundColor: colors.card,
-              elevation: 4,
-              marginTop: 15,
-              borderRadius: 10,
-              padding: 15,
-            }}>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-              }}>
-              <FontAwesomeIcons name="cubes" color={colors.text} size={24} />
-              <Text
-                style={{
-                  color: colors.text,
-                  paddingLeft: 4,
-                }}>
-                total stcok value
-              </Text>
-            </View>
-            <Text style={{color: colors.text, fontSize: 28}}>
-              {totalStockValue()}
-            </Text>
-          </View>
+          <Card data={totalStockValue()} label="total stock value" />
+          <Card data={totalReadyMade['_j']} label="total stock value" />
+          <Card data={totalStockIN['_j']} label="total stock value" />
+          <Card data={totalStockOUT['_j']} label="total stock value" />
         </View>
       </View>
     </View>
