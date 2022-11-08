@@ -3,10 +3,11 @@ import React, {useEffect} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import axios from 'axios';
 import {BASE_URL} from '../config';
+import {useSelector} from 'react-redux';
 
 const Version = ({version, productID, productName, isActive}) => {
   const {navigate} = useNavigation();
-  // const {visible, setVisible} = useState(false);
+  const {user} = useSelector(state => state.auth);
   const {colors} = useTheme();
   const styles = StyleSheet.create({
     item: {
@@ -40,6 +41,12 @@ const Version = ({version, productID, productName, isActive}) => {
               await axios
                 .put(
                   `${BASE_URL}/api/products/${productID}/versions/${version.id}`,
+                  {},
+                  {
+                    headers: {
+                      Authorization: `Bearer ${user.jwt}`,
+                    },
+                  },
                 )
                 .then(() => navigate('productList'));
             },

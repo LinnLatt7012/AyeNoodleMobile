@@ -11,16 +11,20 @@ import {
   NavigationContainer,
   DefaultTheme,
   DarkTheme,
+  useTheme,
 } from '@react-navigation/native';
 
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PersistGate} from 'redux-persist/integration/react';
-import {Provider} from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
+
 import SignIn from './Screens/SignIn';
 import Home from './Screens/Home';
 import {persistor, store} from './Redux/store';
+import SignUp from './Screens/SignUp';
+import CustomSafeArea from './components/CustomSafeArea';
 
 const Stack = createNativeStackNavigator();
 const myTheme = {
@@ -31,30 +35,34 @@ const myTheme = {
   },
 };
 const App = () => {
-  const scheme = useColorScheme();
-  const [login, setLogin] = useState(false);
-  useEffect(() => {
-    SystemNavigationBar.navigationHide();
-  });
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {/* <StatusBar
-          backgroundColor={scheme !== 'dark' ? 'black' : 'white'}
-          barStyle={scheme !== 'dark' ? 'white-content' : 'dark-content'}
-        /> */}
-        {/* <SafeAreaView style={{flex: 1}}> */}
-        <NavigationContainer theme={scheme !== 'dark' ? DarkTheme : myTheme}>
-          <Stack.Navigator
-            initialRouteName={login ? 'Home' : 'Login'}
-            screenOptions={{headerShown: false}}>
-            <Stack.Screen name="Login" component={SignIn} />
-            <Stack.Screen name="Home" component={Home} />
-          </Stack.Navigator>
-        </NavigationContainer>
-        {/* </SafeAreaView> */}
+        <Nav />
       </PersistGate>
     </Provider>
+  );
+};
+
+const Nav = () => {
+  const scheme = useColorScheme();
+  const {colors} = useTheme();
+  const {user} = useSelector(state => state.auth);
+  return (
+    <CustomSafeArea>
+      <NavigationContainer theme={scheme == 'dark' ? myTheme : myTheme}>
+        {user.jwt ? (
+          <Home />
+        ) : (
+          <Stack.Navigator
+            initialRouteName="SignIn"
+            screenOptions={{headerShown: false}}>
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+          </Stack.Navigator>
+        )}
+      </NavigationContainer>
+    </CustomSafeArea>
   );
 };
 

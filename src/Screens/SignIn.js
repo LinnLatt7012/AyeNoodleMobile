@@ -1,14 +1,14 @@
 import {View, Text, StyleSheet, Image} from 'react-native';
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {Button, TextInput} from 'react-native-paper';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {login} from '../Redux/actions';
 const SignIn = ({navigation}) => {
   const {colors} = useTheme();
-  const emailInput = useRef();
   const [email, setEmail] = useState('linnlatt@gmail.com');
-  const [password, setPassword] = useState('thz123');
+  const [password, setPassword] = useState('linn123');
+  const {user} = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const styles = StyleSheet.create({
     mainComponent: {
@@ -38,9 +38,9 @@ const SignIn = ({navigation}) => {
     },
   });
   const loginHandler = event => {
-    console.log(email, password);
+    // console.log(email, password);
     dispatch(login({email, password}));
-    navigation.navigate('Home');
+    // console.log('here', user.jwt);
   };
   return (
     <View style={styles.mainComponent}>

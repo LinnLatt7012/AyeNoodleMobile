@@ -6,6 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Products from './Products';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import Stocks from './Stocks';
+import CustomSafeArea from '../components/CustomSafeArea';
 const Tab = createBottomTabNavigator();
 const screenOptions = (route, color) => {
   let iconName;
@@ -25,25 +26,14 @@ const screenOptions = (route, color) => {
 const Home = ({navigation}) => {
   const scheme = useColorScheme();
   const {colors} = useTheme();
-  useEffect(() => {
-    SystemNavigationBar.navigationHide();
-  });
   return (
     <>
-      <StatusBar
-        backgroundColor={colors.card}
-        barStyle={scheme !== 'dark' ? 'white-content' : 'dark-content'}
-      />
       <Tab.Navigator
         initialRouteName="Products"
         screenOptions={({route}) => ({
           tabBarActiveTintColor: '#e91e63',
           tabBarInactiveTintColor: colors.primary,
-          tabBarStyle: {
-            height: 65,
-            paddingVertical: 10,
-            paddingBottom: 10,
-          },
+          headerShown: false,
           tabBarIcon: ({color}) => screenOptions(route, color),
         })}>
         <Tab.Screen
@@ -52,7 +42,6 @@ const Home = ({navigation}) => {
           options={{
             title: 'Products List',
             tabBarLabel: 'Products',
-            headerShown: false,
           }}
         />
         <Tab.Screen name="Stock" component={Stocks} />

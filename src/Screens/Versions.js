@@ -1,4 +1,4 @@
-import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, FlatList} from 'react-native';
 import React, {useEffect} from 'react';
 import Version from '../components/Version';
 const Versions = ({navigation, route}) => {

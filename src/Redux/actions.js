@@ -34,13 +34,15 @@ export const getProducts = jwt => {
 export const login = userData => {
   try {
     const user = JSON.stringify(userData);
+    console.log('reached here');
     return async dispatch => {
-      const response = await axios.post(`${BASE_URL}/api/users/signin`, user, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      // console.log(response.data);
+      const response = await axios
+        .post(`${BASE_URL}/api/users/signin`, user, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+        .catch(err => console.log('error at here', err));
       if (response.data) {
         dispatch({
           type: LOGIN,

@@ -10,33 +10,10 @@ import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome5';
 import {useState} from 'react';
+import axios from 'axios';
+import {BASE_URL} from '../config';
 
 const Dashboard = ({products, fetchProducts}) => {
-  const [rotateAnimation, setRotateAnimation] = useState(new Animated.Value(0));
-
-  const handleAnimation = () => {
-    fetchProducts();
-    Animated.timing(rotateAnimation, {
-      toValue: 1,
-      duration: 800,
-      useNativeDriver: true,
-    }).start(() => {
-      rotateAnimation.setValue(0);
-    });
-  };
-
-  const interpolateRotating = rotateAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '720deg'],
-  });
-
-  const animatedStyle = {
-    transform: [
-      {
-        rotate: interpolateRotating,
-      },
-    ],
-  };
   const {colors} = useTheme();
   const styles = StyleSheet.create({
     title: {
@@ -73,40 +50,6 @@ const Dashboard = ({products, fetchProducts}) => {
 
   return (
     <View>
-      <View style={styles.title}>
-        <Text
-          style={{
-            ...styles.text,
-            fontWeight: '600',
-            color: colors.text,
-            borderBottomWidth: 4,
-            marginLeft: 15,
-            marginBottom: 3,
-            paddingHorizontal: 4,
-          }}>
-          Dashboard
-        </Text>
-        <TouchableWithoutFeedback onPress={async () => handleAnimation()}>
-          <Animated.View
-            style={{
-              ...animatedStyle,
-              marginRight: 20,
-              marginTop: 25,
-              height: 28,
-            }}>
-            <FontAwesomeIcons
-              name="redo-alt"
-              color={colors.text}
-              style={{
-                fontSize: 26,
-                fontWeight: '600',
-                color: colors.text,
-                // marginRight: 15,
-              }}
-            />
-          </Animated.View>
-        </TouchableWithoutFeedback>
-      </View>
       <View>
         <View
           style={{
@@ -121,7 +64,7 @@ const Dashboard = ({products, fetchProducts}) => {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              backgroundColor: 'white',
+              backgroundColor: colors.card,
               width: '95%',
               elevation: 4,
               borderRadius: 10,
@@ -149,7 +92,7 @@ const Dashboard = ({products, fetchProducts}) => {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              backgroundColor: 'white',
+              backgroundColor: colors.card,
               elevation: 4,
               marginTop: 15,
               borderRadius: 10,
@@ -177,7 +120,7 @@ const Dashboard = ({products, fetchProducts}) => {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              backgroundColor: 'white',
+              backgroundColor: colors.card,
               elevation: 4,
               marginTop: 15,
               borderRadius: 10,

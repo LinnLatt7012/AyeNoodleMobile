@@ -6,6 +6,7 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import Picker from './Picker';
 import {BASE_URL} from '../config';
+import SystemNavigationBar from 'react-native-system-navigation-bar';
 const options = [
   {enName: 'In', mmName: 'In', value: 1},
   {enName: 'Out', mmName: 'Out', value: 2},
@@ -14,7 +15,8 @@ const options = [
 const StockForm = () => {
   const {colors} = useTheme();
   const [quantity, setQuantity] = useState(0);
-  const {products, user} = useSelector(state => state.produtsReducer);
+  const {products} = useSelector(state => state.products);
+  const {user} = useSelector(state => state.auth);
   const [option, setOption] = useState(1);
   const [productID, setProductID] = useState(1);
   const styles = StyleSheet.create({
@@ -47,42 +49,47 @@ const StockForm = () => {
   });
   const onStockHandler = async () => {
     try {
-      Alert.alert(
-        `Stock ${option == 1 ? 'Add' : 'Remove'}`,
-        `${quantity} is added`,
-        [
-          {
-            text: 'Ok',
-            onPress: async () => {
-              await axios
-                .post(
-                  `${BASE_URL}/api/stocks/`,
-                  {
-                    productID,
-                    status: parseInt(option),
-                    quantity: parseInt(quantity),
-                  },
-                  {
-                    headers: {
-                      Authorization: `Bearer ${user.jwt}`,
+      if (quantity == 0) {
+        Alert.alert(`Quantity Error`, `Quantity need to be larger than 0`, [
+          {text: 'OK'},
+        ]);
+      } else {
+        Alert.alert(
+          `Stock ${option == 1 ? 'Add' : 'Remove'}`,
+          `${quantity} is added`,
+          [
+            {
+              text: 'Ok',
+              onPress: async () => {
+                await axios
+                  .post(
+                    `${BASE_URL}/api/stocks/`,
+                    {
+                      productID,
+                      status: parseInt(option),
+                      quantity: parseInt(quantity),
                     },
-                  },
-                )
-                .then(res => console.log(res.data))
-                .catch(err => console.log('err at stock'));
+                    {
+                      headers: {
+                        Authorization: `Bearer ${user.jwt}`,
+                      },
+                    },
+                  )
+                  .then(res => console.log(res.data))
+                  .catch(err => console.log('err at stock'));
+              },
             },
-          },
-          {
-            text: 'Cancel',
-            style: 'cancel',
-          },
-        ],
-      );
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+          ],
+        );
+      }
     } catch (error) {
       console.log('Post error', error);
     }
   };
-  useEffect(() => {}, []);
 
   return (
     <View
