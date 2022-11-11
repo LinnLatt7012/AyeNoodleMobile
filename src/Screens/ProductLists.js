@@ -34,9 +34,7 @@ const ProductLists = ({}) => {
   const [rotateAnimation, setRotateAnimation] = useState(new Animated.Value(0));
 
   const handleAnimation = () => {
-    setStockIn(fetchDashboard());
-    setStockOut(fetchDashboard(7, true));
-    setReadyMade(fetchDashboard(7, true, true));
+    fetchDashboard();
     fetchProducts();
     Animated.timing(rotateAnimation, {
       toValue: 1,
@@ -80,11 +78,13 @@ const ProductLists = ({}) => {
 
   useEffect(() => {
     fetchProducts();
-    setStockIn(fetchDashboard());
-    setStockOut(fetchDashboard(7, true));
-    setReadyMade(fetchDashboard(7, true, true));
+    fetchDashboard();
   }, []);
-
+  const fetchDashboard = async () => {
+    setStockIn(await fetchStock());
+    setStockOut(await fetchStock(7, true));
+    setReadyMade(await fetchStock(7, true, true));
+  };
   const fetchProducts = () => {
     NetInfo.fetch().then(networkState => {
       if (networkState.isConnected && networkState.isInternetReachable) {
@@ -120,7 +120,7 @@ const ProductLists = ({}) => {
       </Animated.View>
     </TouchableWithoutFeedback>
   );
-  const fetchDashboard = async (
+  const fetchStock = async (
     nofDays = 7,
     stockOut = false,
     readyMade = false,
@@ -138,7 +138,7 @@ const ProductLists = ({}) => {
         .then(res => {
           return res.data.value['0'].TotalStockValue;
         });
-      return res;
+      return parseInt(res);
     } catch (error) {
       return 0;
     }
@@ -171,7 +171,6 @@ const ProductLists = ({}) => {
       </View>
       <View
         style={{
-          // height: 400,
           backgroundColor: colors.card,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,

@@ -1,17 +1,7 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  TouchableWithoutFeedback,
-  Animated,
-} from 'react-native';
-import React, {useEffect} from 'react';
+import {View, StyleSheet} from 'react-native';
+import React, {memo, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
-import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome5';
-import {useState} from 'react';
-import axios from 'axios';
-import {BASE_URL} from '../config';
+
 import Card from './Card';
 
 const Dashboard = ({products, totalStockIN, totalStockOUT, totalReadyMade}) => {
@@ -48,7 +38,9 @@ const Dashboard = ({products, totalStockIN, totalStockOUT, totalReadyMade}) => {
     });
     return total;
   };
-  useEffect(() => {}, [products]);
+  useEffect(() => {
+    console.log('dashboard');
+  }, []);
 
   return (
     <View
@@ -60,24 +52,32 @@ const Dashboard = ({products, totalStockIN, totalStockOUT, totalReadyMade}) => {
         justifyContent: 'space-around',
         flexWrap: 'wrap',
       }}>
-      <Card data={totalStockValue()} label="total stock value" icon="cubes" />
       <Card
-        data={totalReadyMade['_j']}
+        data={totalStockValue()}
+        label="total stock value"
+        icon="cubes"
+        width="95%"
+      />
+      <Card
+        data={totalReadyMade}
         label="total ReadyMade value"
         icon="cubes"
+        width="95%"
       />
       <Card
-        data={totalStockIN['_j']}
+        data={totalStockIN}
         label="total StockIn value"
         icon="cubes"
+        width="95%"
       />
       <Card
-        data={totalStockOUT['_j']}
+        data={totalStockOUT}
         label="total StockOut value"
         icon="cubes"
+        width="95%"
       />
     </View>
   );
 };
 
-export default Dashboard;
+export default memo(Dashboard);

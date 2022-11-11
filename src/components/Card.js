@@ -2,6 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome5';
+import {memo} from 'react';
 const Card = ({data, label, icon, width = '48%'}) => {
   const {colors} = useTheme();
   return (
@@ -31,9 +32,11 @@ const Card = ({data, label, icon, width = '48%'}) => {
           {label}
         </Text>
       </View>
-      <Text style={{color: colors.text, fontSize: 28}}>{data}</Text>
+      <Text style={{color: colors.text, fontSize: 28}}>
+        {data.toLocaleString()}
+      </Text>
     </View>
   );
 };
 
-export default Card;
+export default memo(Card);

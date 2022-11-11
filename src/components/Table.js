@@ -48,16 +48,6 @@ const Table = ({children, columns}) => {
             </Text>
           ),
         )}
-        {/* <Text style={{...styles.itemTitle}}>Product Name</Text>
-        <Text
-          style={{
-            ...styles.itemTitle,
-            flex: 1,
-            fontWeight: 'bold',
-          }}>
-          Quantity
-        </Text>
-        <Text style={{...styles.itemTitle}}>Unit Price</Text> */}
       </View>
       {children}
     </>

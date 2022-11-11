@@ -49,7 +49,9 @@ const StockForm = () => {
   });
   const onStockHandler = async () => {
     try {
-      if (quantity == 0) {
+      if (productID == 0) {
+        Alert.alert(`Product Error`, `Select Product`, [{text: 'OK'}]);
+      } else if (quantity == 0) {
         Alert.alert(`Quantity Error`, `Quantity need to be larger than 0`, [
           {text: 'OK'},
         ]);
@@ -75,7 +77,11 @@ const StockForm = () => {
                       },
                     },
                   )
-                  .then(res => console.log(res.data))
+                  .then(() => {
+                    setProductID(1);
+                    setQuantity(1);
+                    setOption(1);
+                  })
                   .catch(err => console.log('err at stock'));
               },
             },
@@ -115,7 +121,7 @@ const StockForm = () => {
         dropDownContainerStyle={{zIndex: 5}}
         contain
         val="value"
-        placeholder="Select Product"
+        placeholder="Select Option"
       />
       <TextInput
         onChangeText={setQuantity}
