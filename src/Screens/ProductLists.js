@@ -1,6 +1,7 @@
 import {
   Animated,
   FlatList,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableWithoutFeedback,
@@ -20,6 +21,7 @@ import CustomSafeArea from '../components/CustomSafeArea';
 import Header from '../components/Header';
 import axios from 'axios';
 import {BASE_URL} from '../config';
+import Table from '../components/Table';
 
 const ProductLists = ({}) => {
   const {products} = useSelector(state => state.products);
@@ -141,11 +143,25 @@ const ProductLists = ({}) => {
       return 0;
     }
   };
+  const columns = [
+    {
+      title: 'Product Name',
+    },
+    {
+      title: 'Quantity',
+      flex: 1,
+      fontWeight: 'bold',
+      marginHorizontal: 5,
+    },
+    {
+      title: 'Unit Price',
+    },
+  ];
   const renderItem = ({item}) => <Product item={item} />;
   return (
-    <>
+    <ScrollView>
       <Header headerText={'Dashboard'} rightEle={refreshButton} />
-      <View style={{height: '40%'}}>
+      <View style={{}}>
         <Dashboard
           products={products}
           totalStockIN={stockIn}
@@ -155,43 +171,21 @@ const ProductLists = ({}) => {
       </View>
       <View
         style={{
-          height: '58%',
+          // height: 400,
           backgroundColor: colors.card,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
           elevation: 4,
         }}>
-        <View
-          style={{
-            ...styles.item,
-            backgroundColor: colors.text,
-            borderTopLeftRadius: 10,
-            borderTopRightRadius: 10,
-          }}>
-          <Text style={{...styles.itemTitle, flex: 2}}>Product Name</Text>
-          <Text
-            style={{
-              ...styles.itemTitle,
-              flex: 1,
-              marginHorizontal: 10,
-              fontWeight: 'bold',
-            }}>
-            Quantity
-          </Text>
-          <Text style={{...styles.itemTitle}}>Unit Price</Text>
-        </View>
-        <FlatList
-          style={{
-            flex: 1,
-            marginTop: 5,
-            marginBottom: 40,
-          }}
-          data={products}
-          renderItem={renderItem}
-          keyExtractor={item => item.productID}
-        />
+        <Table columns={columns}>
+          <View style={{}}>
+            {products.map((item, index) => (
+              <Product item={item} key={index} />
+            ))}
+          </View>
+        </Table>
       </View>
-    </>
+    </ScrollView>
   );
 };
 
