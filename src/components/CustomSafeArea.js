@@ -1,21 +1,16 @@
-import {
-  View,
-  Text,
-  StatusBar,
-  useColorScheme,
-  SafeAreaView,
-} from 'react-native';
-import React from 'react';
+import {StatusBar, useColorScheme, SafeAreaView} from 'react-native';
+import React, {useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
-import {} from 'react-native-gesture-handler';
 const CustomSafeArea = ({children}) => {
-  const scheme = useColorScheme();
+  const theme = useColorScheme();
   const {colors} = useTheme();
+  useEffect(() => {}, [theme]);
+
   return (
-    <SafeAreaView style={{flex: 1, marginTop: StatusBar.currentHeight}}>
+    <SafeAreaView style={{flex: 1}}>
       <StatusBar
         backgroundColor={colors.card}
-        barStyle={scheme !== 'dark' ? 'white-content' : 'dark-content'}
+        barStyle={theme == 'dark' ? 'dark-content' : 'light-content'}
       />
       {children}
     </SafeAreaView>

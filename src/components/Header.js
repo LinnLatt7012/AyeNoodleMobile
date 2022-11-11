@@ -2,19 +2,20 @@ import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 
-const Header = ({headerText, rightEle = null}) => {
+const Header = ({headerText, rightEle}) => {
   const {colors} = useTheme();
   const styles = StyleSheet.create({
     title: {
       color: colors.text,
       height: 65,
       backgroundColor: colors.card,
-      elevation: 20,
+      elevation: 2,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
       borderBottomLeftRadius: 20,
       borderBottomRightRadius: 20,
+      zIndex: 20,
     },
     text: {
       color: colors.text,
@@ -37,7 +38,7 @@ const Header = ({headerText, rightEle = null}) => {
         }}>
         {headerText}
       </Text>
-      {rightEle()}
+      {rightEle && rightEle()}
     </View>
   );
 };

@@ -36,11 +36,13 @@ const myTheme = {
 };
 const App = () => {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Nav />
-      </PersistGate>
-    </Provider>
+    <CustomSafeArea>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Nav />
+        </PersistGate>
+      </Provider>
+    </CustomSafeArea>
   );
 };
 
@@ -49,20 +51,20 @@ const Nav = () => {
   const {colors} = useTheme();
   const {user} = useSelector(state => state.auth);
   return (
-    <CustomSafeArea>
-      <NavigationContainer theme={scheme == 'dark' ? myTheme : myTheme}>
-        {user.jwt ? (
-          <Home />
-        ) : (
-          <Stack.Navigator
-            initialRouteName="SignIn"
-            screenOptions={{headerShown: false}}>
-            <Stack.Screen name="SignIn" component={SignIn} />
-            <Stack.Screen name="SignUp" component={SignUp} />
-          </Stack.Navigator>
-        )}
-      </NavigationContainer>
-    </CustomSafeArea>
+    <NavigationContainer
+      theme={scheme == 'dark' ? myTheme : myTheme}
+      onStateChange={() => {}}>
+      {user?.jwt ? (
+        <Home />
+      ) : (
+        <Stack.Navigator
+          initialRouteName="SignIn"
+          screenOptions={{headerShown: false}}>
+          <Stack.Screen name="SignIn" component={SignIn} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+        </Stack.Navigator>
+      )}
+    </NavigationContainer>
   );
 };
 

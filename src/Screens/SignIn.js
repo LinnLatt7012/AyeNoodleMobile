@@ -3,11 +3,17 @@ import React, {useState} from 'react';
 import {useTheme} from '@react-navigation/native';
 import {Button, TextInput} from 'react-native-paper';
 import {useDispatch, useSelector} from 'react-redux';
-import {login} from '../Redux/actions';
+import {LOGIN, login} from '../Redux/actions';
+import NetInfo from '@react-native-community/netinfo';
+import Noti from '../components/Noti';
+import {useEffect} from 'react';
+import axios from 'axios';
+import {BASE_URL} from '../config';
 const SignIn = ({navigation}) => {
   const {colors} = useTheme();
   const [email, setEmail] = useState('linnlatt@gmail.com');
-  const [password, setPassword] = useState('linn123');
+  const [password, setPassword] = useState('linn23');
+  const [errors, setErrors] = useState({});
   const {user} = useSelector(state => state.auth);
   const dispatch = useDispatch();
   const styles = StyleSheet.create({
@@ -37,11 +43,48 @@ const SignIn = ({navigation}) => {
       paddingHorizontal: 20,
     },
   });
-  const loginHandler = event => {
-    // console.log(email, password);
-    dispatch(login({email, password}));
-    // console.log('here', user.jwt);
+  const loginHandler = async event => {
+    NetInfo.fetch().then(async networkState => {
+      if (networkState.isConnected && networkState.isInternetReachable) {
+        try {
+          const user = JSON.stringify({email, password});
+          await axios
+            .post(`${BASE_URL}/api/users/signin`, user, {
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            })
+            .then(res => {
+              dispatch({
+                type: LOGIN,
+                payload: res.data.value,
+              });
+            })
+            .catch(err => {
+              console.log(err.response.status);
+              if (err.response.status == '401') {
+                setErrors({
+                  password: err.response.data.message,
+                });
+              } else {
+                setErrors({
+                  email: err.response.data.message,
+                });
+              }
+            });
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        Noti('Network Error', 'There is no internet connection', [
+          {
+            text: 'Ok',
+          },
+        ]);
+      }
+    });
   };
+  useEffect(() => {}, [errors]);
   return (
     <View style={styles.mainComponent}>
       <Image />
@@ -56,6 +99,7 @@ const SignIn = ({navigation}) => {
         style={styles.textInput}
         textContentType="emailAddress"
         underlineColor={colors.primary}
+        error={errors?.email}
       />
       <TextInput
         onChangeText={setPassword}
@@ -64,6 +108,7 @@ const SignIn = ({navigation}) => {
         style={styles.textInput}
         underlineColor={colors.primary}
         textContentType="password"
+        error={errors?.password}
         secureTextEntry
       />
       <Button

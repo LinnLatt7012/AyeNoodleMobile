@@ -81,7 +81,6 @@ const ProductLists = ({}) => {
     setStockIn(fetchDashboard());
     setStockOut(fetchDashboard(7, true));
     setReadyMade(fetchDashboard(7, true, true));
-    // console.log(stockIn, stockOut, readyMade);
   }, []);
 
   const fetchProducts = () => {
@@ -124,22 +123,29 @@ const ProductLists = ({}) => {
     stockOut = false,
     readyMade = false,
   ) => {
-    const res = await axios.get(
-      `${BASE_URL}/api/stocks/dashboard?nofDays=${nofDays}&stockOut=${stockOut}&readyMade=${readyMade}`,
-      {
-        headers: {
-          Authorization: `Bearer ${user.jwt}`,
-        },
-      },
-    );
-    const json = JSON.parse(res.data.value['0'].TotalStockValue);
-    return json;
+    try {
+      const res = await axios
+        .get(
+          `${BASE_URL}/api/stocks/dashboard?nofDays=${nofDays}&stockOut=${stockOut}&readyMade=${readyMade}`,
+          {
+            headers: {
+              Authorization: `Bearer ${user.jwt}`,
+            },
+          },
+        )
+        .then(res => {
+          return res.data.value['0'].TotalStockValue;
+        });
+      return res;
+    } catch (error) {
+      return 0;
+    }
   };
   const renderItem = ({item}) => <Product item={item} />;
   return (
     <>
       <Header headerText={'Dashboard'} rightEle={refreshButton} />
-      <View style={{height: '38%'}}>
+      <View style={{height: '40%'}}>
         <Dashboard
           products={products}
           totalStockIN={stockIn}
@@ -162,7 +168,7 @@ const ProductLists = ({}) => {
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
           }}>
-          <Text style={{...styles.itemTitle, flex: 3}}>Product Name</Text>
+          <Text style={{...styles.itemTitle, flex: 2}}>Product Name</Text>
           <Text
             style={{
               ...styles.itemTitle,
@@ -180,8 +186,6 @@ const ProductLists = ({}) => {
             marginTop: 5,
             marginBottom: 40,
           }}
-          onEndReached={fetchProducts}
-          onEndReachedThreshold={0.5}
           data={products}
           renderItem={renderItem}
           keyExtractor={item => item.productID}

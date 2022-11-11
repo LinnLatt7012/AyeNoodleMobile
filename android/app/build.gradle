@@ -217,6 +217,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        // release {
+        //     storeFile file('aye_noodle.keystore')
+        //     storePassword System.console().readLine("\nKeystore password:")
+        //     keyAlias 'aye_noodle'
+        //     keyPassword System.console().readLine("\nAlias password: ")
+        // }
     }
     buildTypes {
         debug {

@@ -1,8 +1,9 @@
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import StockForm from '../components/StockForm';
 import CustomSafeArea from '../components/CustomSafeArea';
+import Header from '../components/Header';
 
 const options = [
   {enName: 'In', mmName: 'In', value: 1},
@@ -14,65 +15,62 @@ const Stocks = () => {
   const styles = StyleSheet.create({
     item: {
       backgroundColor: colors.card,
-      padding: 15,
+      padding: 10,
       marginTop: 10,
-      marginHorizontal: 16,
+      marginHorizontal: 8,
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-around',
     },
-    title: {
-      color: colors.text,
+    itemTitle: {
+      color: colors.card,
       marginHorizontal: 5,
-      fontSize: 16,
-      flex: 2,
+      fontSize: 12,
+      flex: 1,
       textAlign: 'center',
     },
   });
   return (
     <>
-      <View
+      <Header headerText={'Stock'} />
+      <View style={{height: '40%', backgroundColor: 'red'}}>
+        <StockForm />
+      </View>
+      {/* <View
         style={{
-          width: '100%',
-          height: '100%',
-          backgroundColor: colors.card,
-        }}>
-        <View style={{height: '50%'}}>
-          <StockForm />
-        </View>
-        {/* <View
-        style={{
-          height: '52%',
+          height: '58%',
           backgroundColor: colors.card,
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
-          elevation: 10,
+          elevation: 4,
         }}>
         <View
           style={{
             ...styles.item,
             backgroundColor: colors.text,
-            color: colors.card,
             borderTopLeftRadius: 10,
             borderTopRightRadius: 10,
           }}>
-          <Text style={{...styles.title, flex: 3, color: colors.card}}>
-            Product Name
-          </Text>
+          <Text style={{...styles.itemTitle, flex: 2}}>Product Name</Text>
           <Text
             style={{
-              ...styles.title,
+              ...styles.itemTitle,
               flex: 1,
               marginHorizontal: 10,
               fontWeight: 'bold',
-              color: colors.card,
+            }}>
+            Status
+          </Text>
+          <Text
+            style={{
+              ...styles.itemTitle,
+              flex: 1,
             }}>
             Quantity
           </Text>
-          <Text style={{...styles.title, color: colors.card}}>Unit Price</Text>
+          <Text style={{...styles.itemTitle, flex: 2}}>Total</Text>
         </View>
       </View> */}
-      </View>
     </>
   );
 };

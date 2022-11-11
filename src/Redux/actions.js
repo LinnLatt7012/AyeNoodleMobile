@@ -34,26 +34,30 @@ export const getProducts = jwt => {
 export const login = userData => {
   try {
     const user = JSON.stringify(userData);
-    console.log('reached here');
+    // console.log('reached here');
     return async dispatch => {
-      const response = await axios
+      await axios
         .post(`${BASE_URL}/api/users/signin`, user, {
           headers: {
             'Content-Type': 'application/json',
           },
         })
-        .catch(err => console.log('error at here', err));
-      if (response.data) {
-        dispatch({
-          type: LOGIN,
-          payload: response.data.value,
+        .then(res => {
+          dispatch({
+            type: LOGIN,
+            payload: res.data.value,
+          });
+        })
+        .catch(err => {
+          console.log(err.response.data.message);
+          dispatch({
+            type: LOGIN,
+            payload: err.response.data.message,
+          });
         });
-      } else {
-        console.log('Unable to fetch data from the API BASE URL!');
-      }
     };
   } catch (error) {
     // Add custom logic to handle errors
-    console.log('error');
+    console.log('error', error);
   }
 };

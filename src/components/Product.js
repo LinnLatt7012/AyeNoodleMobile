@@ -55,7 +55,7 @@ const Product = ({
           borderBottomColor: '#606060',
           borderBottomWidth: 1,
         }}>
-        <Text style={{...styles.title, flex: 3}}>{mmName}</Text>
+        <Text style={{...styles.title, flex: 2}}>{mmName}</Text>
         <Text
           style={{
             ...styles.title,

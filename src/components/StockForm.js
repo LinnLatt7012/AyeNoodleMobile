@@ -24,18 +24,18 @@ const StockForm = () => {
       display: 'flex',
       color: 'black',
       flexDirection: 'row',
-      backgroundColor: colors.card,
+      backgroundColor: colors.background,
       justifyContent: 'space-between',
       flexWrap: 'wrap',
       padding: 20,
       alignItems: 'center',
+      zIndex: 10,
     },
     textInput: {
       width: '100%',
       height: 40,
       color: colors.text,
-      backgroundColor: colors.card,
-      borderColor: '',
+      backgroundColor: colors.background,
       borderRadius: 5,
       marginTop: 20,
     },
@@ -96,21 +96,12 @@ const StockForm = () => {
       style={{
         ...styles.mainComponent,
       }}>
-      <Text
-        style={{
-          color: colors.text,
-          fontSize: 24,
-          marginBottom: 10,
-          fontWeight: '800',
-        }}>
-        Stock Information
-      </Text>
       <Picker
         setValue={setProductID}
         value={productID}
         items={products}
         label="mmName"
-        style={{zIndex: 5}}
+        style={{zIndex: 5, backgroundColor: colors.background}}
         dropDownContainerStyle={{zIndex: 10}}
         val="productID"
         placeholder="Select Product"
@@ -120,7 +111,7 @@ const StockForm = () => {
         value={option}
         items={options}
         label="mmName"
-        style={{marginTop: 10, zIndex: 5}}
+        style={{marginTop: 10, zIndex: 5, backgroundColor: colors.background}}
         dropDownContainerStyle={{zIndex: 5}}
         contain
         val="value"
@@ -135,7 +126,6 @@ const StockForm = () => {
         textContentType="numeric"
         underlineColor={colors.primary}
       />
-      {/* <RadioButtom /> */}
       <View style={{width: '100%'}}>
         <Button
           compact

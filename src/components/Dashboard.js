@@ -48,28 +48,34 @@ const Dashboard = ({products, totalStockIN, totalStockOUT, totalReadyMade}) => {
     });
     return total;
   };
-  useEffect(() => {
-    console.log(totalStockIN);
-  }, []);
+  useEffect(() => {}, [products]);
 
   return (
-    <View>
-      <View>
-        <View
-          style={{
-            margin: 10,
-            display: 'flex',
-            flexDirection: 'row',
-            alignContent: 'space-around',
-            justifyContent: 'space-around',
-            flexWrap: 'wrap',
-          }}>
-          <Card data={totalStockValue()} label="total stock value" />
-          <Card data={totalReadyMade['_j']} label="total stock value" />
-          <Card data={totalStockIN['_j']} label="total stock value" />
-          <Card data={totalStockOUT['_j']} label="total stock value" />
-        </View>
-      </View>
+    <View
+      style={{
+        margin: 10,
+        display: 'flex',
+        flexDirection: 'row',
+        alignContent: 'space-around',
+        justifyContent: 'space-around',
+        flexWrap: 'wrap',
+      }}>
+      <Card data={totalStockValue()} label="total stock value" icon="cubes" />
+      <Card
+        data={totalReadyMade['_j']}
+        label="total ReadyMade value"
+        icon="cubes"
+      />
+      <Card
+        data={totalStockIN['_j']}
+        label="total StockIn value"
+        icon="cubes"
+      />
+      <Card
+        data={totalStockOUT['_j']}
+        label="total StockOut value"
+        icon="cubes"
+      />
     </View>
   );
 };
