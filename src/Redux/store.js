@@ -2,7 +2,7 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {persistStore, persistReducer} from 'redux-persist';
 import thunk from 'redux-thunk';
-import {authReducer, productsReducer} from './reducers';
+import {authReducer, productsReducer, settingReducer} from './reducers';
 
 const persistProductsConfig = {
   key: 'root',
@@ -14,9 +14,15 @@ const persistAuthConfig = {
   storage: AsyncStorage,
   whitelist: ['user'],
 };
+const persistSettingConfig = {
+  key: 'setting',
+  storage: AsyncStorage,
+  whitelist: ['language'],
+};
 const rootReducer = combineReducers({
   products: persistReducer(persistProductsConfig, productsReducer),
   auth: persistReducer(persistAuthConfig, authReducer),
+  setting: persistReducer(persistSettingConfig, settingReducer),
 });
 
 export const store = createStore(rootReducer, applyMiddleware(thunk));

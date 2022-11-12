@@ -38,10 +38,6 @@ const Dashboard = ({products, totalStockIN, totalStockOUT, totalReadyMade}) => {
     });
     return total;
   };
-  useEffect(() => {
-    console.log('dashboard');
-  }, []);
-
   return (
     <View
       style={{

@@ -44,7 +44,7 @@ const Table = ({children, columns}) => {
                 fontSize: fontSize ? fontSize : 16,
                 marginHorizontal: marginHorizontal ? marginHorizontal : 5,
               }}>
-              {title}
+              {title['en']}
             </Text>
           ),
         )}

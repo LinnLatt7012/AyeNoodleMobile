@@ -145,16 +145,16 @@ const ProductLists = ({}) => {
   };
   const columns = [
     {
-      title: 'Product Name',
+      title: {en: 'Product Name'},
     },
     {
-      title: 'Quantity',
+      title: {en: 'Quantity'},
       flex: 1,
       fontWeight: 'bold',
       marginHorizontal: 5,
     },
     {
-      title: 'Unit Price',
+      title: {en: 'Unit Price'},
     },
   ];
   const renderItem = ({item}) => <Product item={item} />;

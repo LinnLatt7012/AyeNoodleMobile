@@ -7,6 +7,7 @@ import Products from './Products';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 import Stocks from './Stocks';
 import CustomSafeArea from '../components/CustomSafeArea';
+import Profile from './Profile';
 const Tab = createBottomTabNavigator();
 const screenOptions = (route, color) => {
   let iconName;
@@ -16,6 +17,9 @@ const screenOptions = (route, color) => {
       break;
     case 'Stock':
       iconName = 'cubes';
+      break;
+    case 'Profile':
+      iconName = 'user';
       break;
     default:
       break;
@@ -45,6 +49,7 @@ const Home = ({navigation}) => {
           }}
         />
         <Tab.Screen name="Stock" component={Stocks} />
+        <Tab.Screen name="Profile" component={Profile} />
       </Tab.Navigator>
     </>
   );

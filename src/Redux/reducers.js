@@ -1,4 +1,4 @@
-import {GET_PRODUCTS, LOGIN} from './actions';
+import {GET_PRODUCTS, SET_LAN} from './actions';
 
 const initialState = {
   products: [],
@@ -17,13 +17,19 @@ const initialAuthState = {
 };
 function authReducer(state = initialAuthState, action) {
   switch (action.type) {
-    case LOGIN:
-      const data = {
-        user: action.payload,
-      };
-      return data;
     default:
       return state;
   }
 }
-export {authReducer, productsReducer};
+const initialSettingState = {
+  language: 'mm',
+};
+function settingReducer(state = initialSettingState, action) {
+  switch (action.type) {
+    case SET_LAN:
+      return {...state, language: action.payload};
+    default:
+      return state;
+  }
+}
+export {authReducer, productsReducer, settingReducer};
