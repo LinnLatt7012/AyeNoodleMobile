@@ -8,6 +8,7 @@ const Header = ({headerText, rightEle}) => {
     title: {
       color: colors.text,
       height: 65,
+      width: '100%',
       backgroundColor: colors.card,
       elevation: 2,
       display: 'flex',

@@ -145,16 +145,16 @@ const ProductLists = ({}) => {
   };
   const columns = [
     {
-      title: {en: 'Product Name'},
+      title: {en: 'Product Name', mm: 'ပစ္စည်းနာမည်'},
     },
     {
-      title: {en: 'Quantity'},
+      title: {en: 'Quantity', mm: 'အရေအတွက်'},
       flex: 1,
       fontWeight: 'bold',
       marginHorizontal: 5,
     },
     {
-      title: {en: 'Unit Price'},
+      title: {en: 'Unit Price', mm: 'တစ်ခုချင်းစျေး'},
     },
   ];
   const renderItem = ({item}) => <Product item={item} />;

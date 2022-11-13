@@ -2,9 +2,11 @@ import {View, Text, StyleSheet, FlatList} from 'react-native';
 import React from 'react';
 import {useTheme} from '@react-navigation/native';
 import Product from './Product';
+import {useSelector} from 'react-redux';
 
 const Table = ({children, columns}) => {
   const {colors} = useTheme();
+  const {language} = useSelector(state => state.setting);
 
   const styles = StyleSheet.create({
     item: {
@@ -44,7 +46,7 @@ const Table = ({children, columns}) => {
                 fontSize: fontSize ? fontSize : 16,
                 marginHorizontal: marginHorizontal ? marginHorizontal : 5,
               }}>
-              {title['en']}
+              {title[language]}
             </Text>
           ),
         )}

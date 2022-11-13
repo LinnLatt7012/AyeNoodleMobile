@@ -7,6 +7,7 @@ import axios from 'axios';
 import Picker from './Picker';
 import {BASE_URL} from '../config';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
+import {ButtonText, HeaderText, Noti, Placeholder} from '../language';
 const options = [
   {enName: 'In', mmName: 'In', value: 1},
   {enName: 'Out', mmName: 'Out', value: 2},
@@ -17,6 +18,7 @@ const StockForm = () => {
   const [quantity, setQuantity] = useState(0);
   const {products} = useSelector(state => state.products);
   const {user} = useSelector(state => state.auth);
+  const {language} = useSelector(state => state.setting);
   const [option, setOption] = useState(1);
   const [productID, setProductID] = useState(1);
   const styles = StyleSheet.create({
@@ -50,15 +52,21 @@ const StockForm = () => {
   const onStockHandler = async () => {
     try {
       if (productID == 0) {
-        Alert.alert(`Product Error`, `Select Product`, [{text: 'OK'}]);
+        Alert.alert(
+          Noti[language].productError.title,
+          Noti[language].productError.message,
+          [{text: 'OK'}],
+        );
       } else if (quantity == 0) {
-        Alert.alert(`Quantity Error`, `Quantity need to be larger than 0`, [
-          {text: 'OK'},
-        ]);
+        Alert.alert(
+          Noti[language].quantityError.title,
+          Noti[language].quantityError.message,
+          [{text: 'OK'}],
+        );
       } else {
         Alert.alert(
-          `Stock ${option == 1 ? 'Add' : 'Remove'}`,
-          `${quantity} is added`,
+          Noti[language].stockNoti.title(option == 1),
+          Noti[language].stockNoti.title(quantity, option == 1),
           [
             {
               text: 'Ok',
@@ -106,26 +114,26 @@ const StockForm = () => {
         setValue={setProductID}
         value={productID}
         items={products}
-        label="mmName"
+        label={`${language}Name`}
         style={{zIndex: 5, backgroundColor: colors.background}}
         dropDownContainerStyle={{zIndex: 10}}
         val="productID"
-        placeholder="Select Product"
+        placeholder={Placeholder[language].product}
       />
       <Picker
         setValue={setOption}
         value={option}
         items={options}
-        label="mmName"
+        label={`${language}Name`}
         style={{marginTop: 10, zIndex: 5, backgroundColor: colors.background}}
         dropDownContainerStyle={{zIndex: 5}}
         contain
         val="value"
-        placeholder="Select Option"
+        placeholder={Placeholder[language].option}
       />
       <TextInput
         onChangeText={setQuantity}
-        placeholder="Quantity"
+        placeholder={Placeholder[language].quantity}
         value={quantity}
         style={styles.textInput}
         keyboardType="numeric"
@@ -137,7 +145,7 @@ const StockForm = () => {
           compact
           color={colors.text}
           onPress={onStockHandler}
-          children="Submit"
+          children={ButtonText[language].stockSubmit(option == 1)}
           style={{
             ...styles.Submit,
           }}

@@ -1,6 +1,7 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useEffect} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const Product = ({
   item: {
@@ -14,6 +15,7 @@ const Product = ({
   },
 }) => {
   const {navigate} = useNavigation();
+  const {language} = useSelector(state => state.setting);
   const {colors} = useTheme();
   const styles = StyleSheet.create({
     item: {
@@ -39,7 +41,7 @@ const Product = ({
   const onPressHandler = () => {
     navigate('allVersion', {
       productID,
-      productName: [enName, mmName],
+      productName: language == 'mm' ? mmName : enName,
       versions,
       activeVersion,
     });
@@ -55,7 +57,9 @@ const Product = ({
           borderBottomColor: '#606060',
           borderBottomWidth: 1,
         }}>
-        <Text style={{...styles.title, flex: 2}}>{mmName}</Text>
+        <Text style={{...styles.title, flex: 2}}>
+          {language == 'mm' ? mmName : enName}
+        </Text>
         <Text
           style={{
             ...styles.title,

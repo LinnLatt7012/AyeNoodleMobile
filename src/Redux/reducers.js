@@ -22,7 +22,7 @@ function authReducer(state = initialAuthState, action) {
   }
 }
 const initialSettingState = {
-  language: 'mm',
+  language: '',
 };
 function settingReducer(state = initialSettingState, action) {
   switch (action.type) {

@@ -3,9 +3,12 @@ import React, {memo, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 
 import Card from './Card';
+import {HeaderText} from '../language';
+import {useSelector} from 'react-redux';
 
 const Dashboard = ({products, totalStockIN, totalStockOUT, totalReadyMade}) => {
   const {colors} = useTheme();
+  const {language} = useSelector(state => state.setting);
   const styles = StyleSheet.create({
     title: {
       color: colors.text,
@@ -50,25 +53,25 @@ const Dashboard = ({products, totalStockIN, totalStockOUT, totalReadyMade}) => {
       }}>
       <Card
         data={totalStockValue()}
-        label="total stock value"
+        label={HeaderText[language].totalStockValue}
         icon="cubes"
         width="95%"
       />
       <Card
         data={totalReadyMade}
-        label="total ReadyMade value"
+        label={HeaderText[language].totalReadyMade}
         icon="cubes"
         width="95%"
       />
       <Card
         data={totalStockIN}
-        label="total StockIn value"
+        label={HeaderText[language].totalStockIN}
         icon="cubes"
         width="95%"
       />
       <Card
         data={totalStockOUT}
-        label="total StockOut value"
+        label={HeaderText[language].totalStockOUT}
         icon="cubes"
         width="95%"
       />
