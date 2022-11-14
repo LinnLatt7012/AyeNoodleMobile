@@ -21,19 +21,21 @@ const ProfileCol = ({label, value}) => {
           color: colors.text,
           fontSize: 16,
           flex: 2,
-          textAlign: 'left',
+          textAlign: `${value ? 'left' : 'center'}`,
         }}>
         {label}
       </Text>
-      <Text
-        style={{
-          color: colors.text,
-          fontSize: 16,
-          flex: 2,
-          textAlign: 'right',
-        }}>
-        {value}
-      </Text>
+      {value && (
+        <Text
+          style={{
+            color: colors.text,
+            fontSize: 16,
+            flex: 2,
+            textAlign: 'right',
+          }}>
+          {value}
+        </Text>
+      )}
     </View>
   );
 };

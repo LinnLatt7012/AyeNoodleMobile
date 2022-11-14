@@ -22,10 +22,12 @@ import Header from '../components/Header';
 import axios from 'axios';
 import {BASE_URL} from '../config';
 import Table from '../components/Table';
+import {NotiText} from '../language';
 
 const ProductLists = ({}) => {
   const {products} = useSelector(state => state.products);
   const {user} = useSelector(state => state.auth);
+  const {language} = useSelector(state => state.setting);
   const [stockIn, setStockIn] = useState(0);
   const [stockOut, setStockOut] = useState(0);
   const [readyMade, setReadyMade] = useState(0);
@@ -90,11 +92,15 @@ const ProductLists = ({}) => {
       if (networkState.isConnected && networkState.isInternetReachable) {
         dispatch(getProducts(user.jwt));
       } else {
-        Noti('Network Error', 'There is no internet connection', [
-          {
-            text: 'Ok',
-          },
-        ]);
+        Noti(
+          NotiText[language].networkError.title,
+          NotiText[language].networkError.message,
+          [
+            {
+              text: NotiText[language].ok,
+            },
+          ],
+        );
       }
     });
   };

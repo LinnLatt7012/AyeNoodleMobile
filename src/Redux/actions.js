@@ -1,5 +1,6 @@
 export const GET_PRODUCTS = 'GET_PRODUCTS';
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGIN';
 export const SET_LAN = 'SETTING';
 
 import axios from 'axios';
@@ -31,6 +32,15 @@ export const getProducts = jwt => {
     // Add custom logic to handle errors
     console.log('error');
   }
+};
+
+export const Logout = () => {
+  return dispatch => {
+    dispatch({
+      type: LOGOUT,
+      payload: {},
+    });
+  };
 };
 
 export const setLan = lan => {

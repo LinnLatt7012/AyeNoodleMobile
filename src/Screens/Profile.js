@@ -9,7 +9,7 @@ import React, {useEffect} from 'react';
 import Header from '../components/Header';
 import {HeaderText, profile} from '../language';
 import {useDispatch, useSelector} from 'react-redux';
-import {setLan} from '../Redux/actions';
+import {Logout, setLan} from '../Redux/actions';
 import {useTheme} from '@react-navigation/native';
 import ProfileCol from '../components/ProfileCol';
 
@@ -20,6 +20,9 @@ const Profile = () => {
   const dispatch = useDispatch();
   const changeLanHandler = () => {
     dispatch(setLan(language == 'en' ? 'mm' : 'en'));
+  };
+  const SignOut = () => {
+    dispatch(Logout());
   };
   return (
     <View style={{display: 'flex', alignItems: 'center'}}>
@@ -62,6 +65,12 @@ const Profile = () => {
           <ProfileCol
             label={profile[language].language}
             value={profile[language].lan}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={SignOut}>
+          <ProfileCol
+            label={profile[language].signOut}
+            // value={profile[language].lan}
           />
         </TouchableOpacity>
       </View>

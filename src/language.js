@@ -17,6 +17,12 @@ export const NotiText = {
       title: 'Unit Price Error',
       message: 'Unit Price need to be larger than 0',
     },
+    emailError: {
+      title: 'Incorrect Email!',
+    },
+    passwordError: {
+      title: 'မှIncorrect Password!',
+    },
     stockNoti: {
       title: (remove = false) => {
         return `Stock ${remove ? 'Add' : 'Remove'} `;
@@ -54,6 +60,12 @@ export const NotiText = {
     priceError: {
       title: 'စျေးနှုန်းအသစ်ပြဿနာ',
       message: 'စျေးနှုန်းအသစ်သည် သုညထက်ပိုကြီးဖို့ လိုပါတယ်။',
+    },
+    emailError: {
+      title: 'မှားယွင်းသောအီးမေးလ်!',
+    },
+    passwordError: {
+      title: 'မှားယွင်းသောလျှိဝှက်ကုဒ်နံပါတ်!',
     },
     stockNoti: {
       title: (remove = false) => {
@@ -111,8 +123,8 @@ export const Placeholder = {
     product: 'ကုန်ပစ္စည်းကိုရွှေးချယ်ပါ',
     option: 'လုပ်ဆောင်မည့် လုပ်ဆောင်ချက်ကိုရွေးချယ်ပါ',
     quantity: 'အရေအတွက်',
-    email: 'အီးမေးလ်ကိုရေးပါ',
-    password: 'လျှိဝှက်ကုဒ်နံပါတ်ရေးပါ',
+    email: 'အီးမေးလ်ကို ရေးပါ',
+    password: 'လျှိဝှက်ကုဒ်နံပါတ် ရေးပါ',
     newPrice: 'စျေးနှုန်းအသစ်',
   },
 };
@@ -123,9 +135,7 @@ export const HeaderText = {
     stock: 'Stock',
     profile: 'Profile',
     hello: 'Hello!',
-    welcome: text => {
-      return `Welcome From ${text}`;
-    },
+    welcome: `Welcome From`,
     totalStockValue: 'Total Stock Value',
     totalReadyMade: 'Total Ready Made Value',
     totalStockIN: 'Total Stock In Value',
@@ -138,9 +148,7 @@ export const HeaderText = {
     stock: 'ကုန်အဝင်အထွက်',
     profile: 'Profile',
     hello: 'မဂႅလာပါ!',
-    welcome: text => {
-      return `${text}ကနေကြိုဆိုပါတယ်`;
-    },
+    welcome: `ကနေကြိုဆိုပါတယ်`,
     totalStockValue: 'ပစ္စည်းလက်ကျန်တန်ဖိုး',
     totalReadyMade: 'အသင့်လုပ်ပစ္စည်းအတွက်ကုန်ကျငွေ',
     totalStockIN: 'ကုန်ပစ္စည်းအဝင်တန်ဖိုး',
@@ -157,6 +165,7 @@ export const profile = {
     role: 'Role',
     language: 'Language',
     lan: 'English',
+    signOut: 'Sign Out',
   },
   mm: {
     username: 'နာမည်',
@@ -164,5 +173,6 @@ export const profile = {
     role: 'အလုပ်အကိုင်',
     language: 'ဘာသာစကား',
     lan: 'မြန်မာ',
+    signOut: 'အကောင့်မှ ထွက်ပါ',
   },
 };
