@@ -7,11 +7,11 @@ import axios from 'axios';
 import Picker from './Picker';
 import {BASE_URL} from '../config';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
-import {ButtonText, HeaderText, Noti, Placeholder} from '../language';
+import {ButtonText, HeaderText, NotiText, Placeholder} from '../language';
 const options = [
-  {enName: 'In', mmName: 'In', value: 1},
-  {enName: 'Out', mmName: 'Out', value: 2},
-  {enName: 'Ready-made', mmName: 'Ready-made', value: 3},
+  {enName: 'In', mmName: 'အဝင်', value: 1},
+  {enName: 'Out', mmName: 'အထွက်', value: 2},
+  {enName: 'Ready-made', mmName: 'အသင့်စား', value: 3},
 ];
 const StockForm = () => {
   const {colors} = useTheme();
@@ -20,7 +20,7 @@ const StockForm = () => {
   const {user} = useSelector(state => state.auth);
   const {language} = useSelector(state => state.setting);
   const [option, setOption] = useState(1);
-  const [productID, setProductID] = useState(1);
+  const [productID, setProductID] = useState(0);
   const styles = StyleSheet.create({
     mainComponent: {
       display: 'flex',
@@ -53,23 +53,23 @@ const StockForm = () => {
     try {
       if (productID == 0) {
         Alert.alert(
-          Noti[language].productError.title,
-          Noti[language].productError.message,
-          [{text: 'OK'}],
+          NotiText[language].productError.title,
+          NotiText[language].productError.message,
+          [{text: NotiText[language].ok}],
         );
       } else if (quantity == 0) {
         Alert.alert(
-          Noti[language].quantityError.title,
-          Noti[language].quantityError.message,
-          [{text: 'OK'}],
+          NotiText[language].quantityError.title,
+          NotiText[language].quantityError.message,
+          [{text: NotiText[language].ok}],
         );
       } else {
         Alert.alert(
-          Noti[language].stockNoti.title(option == 1),
-          Noti[language].stockNoti.title(quantity, option == 1),
+          NotiText[language].stockNoti.title(option == 1),
+          NotiText[language].stockNoti.title(quantity, option == 1),
           [
             {
-              text: 'Ok',
+              text: ButtonText[language].ok,
               onPress: async () => {
                 await axios
                   .post(
@@ -94,7 +94,7 @@ const StockForm = () => {
               },
             },
             {
-              text: 'Cancel',
+              text: ButtonText[language].cancle,
               style: 'cancel',
             },
           ],

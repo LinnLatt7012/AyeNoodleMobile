@@ -4,10 +4,12 @@ import {useNavigation, useTheme} from '@react-navigation/native';
 import axios from 'axios';
 import {BASE_URL} from '../config';
 import {useSelector} from 'react-redux';
+import {ButtonText, NotiText} from '../language';
 
 const Version = ({version, productID, productName, isActive}) => {
   const {navigate} = useNavigation();
   const {user} = useSelector(state => state.auth);
+  const {language} = useSelector(state => state.setting);
   const {colors} = useTheme();
   const styles = StyleSheet.create({
     item: {
@@ -32,11 +34,11 @@ const Version = ({version, productID, productName, isActive}) => {
   const onPressHandler = async () => {
     try {
       Alert.alert(
-        `${productName}`,
-        `${version.unitPrice} will be set as activeVersion`,
+        NotiText[language].changeUnitPrice.title,
+        NotiText[language].changeUnitPrice.message(version.unitPrice),
         [
           {
-            text: 'Ok',
+            text: ButtonText[language].ok,
             onPress: async () => {
               await axios
                 .put(
@@ -52,7 +54,7 @@ const Version = ({version, productID, productName, isActive}) => {
             },
           },
           {
-            text: 'Cancel',
+            text: ButtonText[language].cancle,
             style: 'cancel',
           },
         ],

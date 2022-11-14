@@ -38,6 +38,9 @@ const Home = ({navigation}) => {
           tabBarActiveTintColor: '#e91e63',
           tabBarInactiveTintColor: colors.primary,
           headerShown: false,
+          tabBarStyle: {
+            height: 55,
+          },
           tabBarIcon: ({color}) => screenOptions(route, color),
         })}>
         <Tab.Screen

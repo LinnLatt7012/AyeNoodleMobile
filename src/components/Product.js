@@ -17,6 +17,7 @@ const Product = ({
   const {navigate} = useNavigation();
   const {language} = useSelector(state => state.setting);
   const {colors} = useTheme();
+  const productName = language == 'mm' ? mmName : enName;
   const styles = StyleSheet.create({
     item: {
       backgroundColor: colors.card,
@@ -41,7 +42,7 @@ const Product = ({
   const onPressHandler = () => {
     navigate('allVersion', {
       productID,
-      productName: language == 'mm' ? mmName : enName,
+      productName,
       versions,
       activeVersion,
     });
@@ -57,9 +58,7 @@ const Product = ({
           borderBottomColor: '#606060',
           borderBottomWidth: 1,
         }}>
-        <Text style={{...styles.title, flex: 2}}>
-          {language == 'mm' ? mmName : enName}
-        </Text>
+        <Text style={{...styles.title, flex: 2}}>{productName}</Text>
         <Text
           style={{
             ...styles.title,

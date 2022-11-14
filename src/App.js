@@ -18,8 +18,8 @@ import SystemNavigationBar from 'react-native-system-navigation-bar';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {PersistGate} from 'redux-persist/integration/react';
 import {Provider, useSelector} from 'react-redux';
-import {SafeAreaView, StatusBar, useColorScheme} from 'react-native';
-
+import {useColorScheme} from 'react-native';
+import {MD3LightTheme, Provider as PaperProvider} from 'react-native-paper';
 import SignIn from './Screens/SignIn';
 import Home from './Screens/Home';
 import {persistor, store} from './Redux/store';
@@ -51,20 +51,22 @@ const Nav = () => {
   const {colors} = useTheme();
   const {user} = useSelector(state => state.auth);
   return (
-    <NavigationContainer
-      theme={scheme == 'dark' ? myTheme : myTheme}
-      onStateChange={() => {}}>
-      {user?.jwt ? (
-        <Home />
-      ) : (
-        <Stack.Navigator
-          initialRouteName="SignIn"
-          screenOptions={{headerShown: false}}>
-          <Stack.Screen name="SignIn" component={SignIn} />
-          <Stack.Screen name="SignUp" component={SignUp} />
-        </Stack.Navigator>
-      )}
-    </NavigationContainer>
+    <PaperProvider theme={MD3LightTheme}>
+      <NavigationContainer
+        theme={scheme == 'dark' ? myTheme : myTheme}
+        onStateChange={() => {}}>
+        {user?.jwt ? (
+          <Home />
+        ) : (
+          <Stack.Navigator
+            initialRouteName="SignIn"
+            screenOptions={{headerShown: false}}>
+            <Stack.Screen name="SignIn" component={SignIn} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+          </Stack.Navigator>
+        )}
+      </NavigationContainer>
+    </PaperProvider>
   );
 };
 

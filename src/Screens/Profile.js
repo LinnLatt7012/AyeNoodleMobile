@@ -59,7 +59,10 @@ const Profile = () => {
         <ProfileCol label={profile[language].email} value={user.email} />
         <ProfileCol label={profile[language].role} value={user.role} />
         <TouchableOpacity onPress={changeLanHandler}>
-          <ProfileCol label={profile[language].language} value={language} />
+          <ProfileCol
+            label={profile[language].language}
+            value={profile[language].lan}
+          />
         </TouchableOpacity>
       </View>
     </View>
