@@ -52,25 +52,25 @@ const Dashboard = ({products, totalStockIN, totalStockOUT, totalReadyMade}) => {
         flexWrap: 'wrap',
       }}>
       <Card
-        data={totalStockValue()}
+        data={totalStockValue() || 0}
         label={HeaderText[language].totalStockValue}
         icon="cubes"
         width="95%"
       />
       <Card
-        data={totalReadyMade}
+        data={totalReadyMade || 0}
         label={HeaderText[language].totalReadyMade}
         icon="cubes"
         width="95%"
       />
       <Card
-        data={totalStockIN}
+        data={totalStockIN || 0}
         label={HeaderText[language].totalStockIN}
         icon="cubes"
         width="95%"
       />
       <Card
-        data={totalStockOUT}
+        data={totalStockOUT || 0}
         label={HeaderText[language].totalStockOUT}
         icon="cubes"
         width="95%"

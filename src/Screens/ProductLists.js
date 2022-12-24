@@ -154,7 +154,7 @@ const ProductLists = ({}) => {
       title: {en: 'Product Name', mm: 'ပစ္စည်းနာမည်'},
     },
     {
-      title: {en: 'Quantity', mm: 'အရေအတွက်'},
+      title: {en: 'Quan tity', mm: 'အရေအ တွက်'},
       flex: 1,
       fontWeight: 'bold',
       marginHorizontal: 5,
@@ -183,7 +183,7 @@ const ProductLists = ({}) => {
           elevation: 4,
         }}>
         <Table columns={columns}>
-          <View style={{}}>
+          <View style={{minHeight: 100}}>
             {products.map((item, index) => (
               <Product item={item} key={index} />
             ))}
